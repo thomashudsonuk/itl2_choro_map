@@ -1,0 +1,16 @@
+<p>This R Shiny app allows you to upload a CSV file containing
+data for the International Territorial Level (ITL) 2 areas of the UK and 
+create a choropleth map of the data. The CSV file must contain a column 
+named 'ITL221NM' which contains the names of the ITL2 areas. The first 
+row of the CSV file must contain the column names. The CSV file must be 
+less than 1GB in size.</p>
+
+<p>The user can select a column from the CSV file to be used to colour the
+ITL2 areas. Only numeric columns are available to be selected. The legend
+will be automatically generated based on the data in the selected column;
+to avoid an error, this can sometimes result in a less than useful colour
+range.</p>
+
+<p>The CSV file will be uploaded to the Shiny server and will not be stored
+or shared. The CSV file will be deleted from the Shiny server when the
+session ends.</p>
