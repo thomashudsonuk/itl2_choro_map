@@ -13,7 +13,7 @@ itl2_geojson <- geojson_sf("itl2_crs_4326.geojson")
 ui <- fluidPage(
     navbarPage(
         title = "ITL2 Chloropleth Mapping Tool",
-        tabPanel("Information", includeHTML("info_text.html"),),
+        tabPanel("Information", includeHTML("info_text.html")),
         tabPanel("File Upload", sidebarLayout(
             sidebarPanel(
                 fileInput(inputId = "file_upload", label = "Upload CSV File"),
@@ -36,7 +36,7 @@ ui <- fluidPage(
                     inputId = "column",
                     label = "Select column.",
                     choices = NULL
-                ),
+                )
             ),
             mainPanel(
                 leafletOutput("leaflet_map", width = "60vw", height = "90vh")
@@ -90,7 +90,7 @@ server <- function(input, output) {
         map_data <- dplyr::inner_join(itl2_geojson, upload_output())
 
         column_data <- as.data.frame(map_data) %>%
-            dplyr::select(dplyr::contains(input$column)) %>%
+            dplyr::select(dplyr::all_of(input$column)) %>%
             unlist()
 
         quantile_num <- 10
@@ -112,21 +112,32 @@ server <- function(input, output) {
                     na.rm = TRUE,
                     names = FALSE
                 )
+            # Increase top bin value by 5% and decrease bottom by 5%
+            # to ensure all values are included after rounding
+            bins[1] <- bins[1] - 0.05 * abs(bins[1])
+            bins[-1] <- bins[-1] + 0.05 * abs(bins[-1])
+
+            if (quantile_num < 5) {
+                bins <- seq(min(column_data,
+                        na.rm = TRUE) - 0.05 * abs(min(column_data,
+                        na.rm = TRUE)),
+                    max(column_data,
+                        na.rm = TRUE) +  0.05 * abs(max(column_data,
+                        na.rm = TRUE)),
+                    length.out = quantile_num + 1)
+                break
+             }
         }
 
-        # Increase top bin value by 5% and decrease bottom by 5%
-        # to ensure all values are included after rounding
-        bins[1] <- bins[1] - 0.05 * abs(bins[1])
-        bins[-1] <- bins[-1] + 0.05 * abs(bins[-1])
 
         pal <- colorBin(
             "YlOrRd",
             domain = column_data,
-            bins = signif(bins, 3)
+            bins = signif(bins, 2)
         )
 
         labels <- sprintf(
-            # If input$column contains money term then different label
+            # If input$column matches money term then different label
             ifelse(
                 grepl("cost|expenditure", tolower(input$column)),
                 "<strong>%s</strong><br/>%s: £%g million",
@@ -174,7 +185,7 @@ server <- function(input, output) {
                 opacity = 0.7,
                 title = gsub("_", " ", input$column),
                 position = "bottomright",
-                # If input$column contains money term then money format
+                # If input$column matches money term then money format
                 labFormat = labelFormat(prefix = ifelse(
                     grepl("cost|expenditure", tolower(input$column)),
                     "£", ""
