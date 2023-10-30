@@ -15,6 +15,7 @@ runGitHub("itl2_choro_map", "thomashudsonuk")
 
 ### Things to add
 
+- Normalisation options e.g. per hectare, or per capita
 - Add explanation of geojson source
 - Explain bins and colour palette
 - Choose ITL1, ITL2, and ITL3
