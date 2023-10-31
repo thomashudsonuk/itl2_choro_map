@@ -1,6 +1,9 @@
 # Automatic ITL2 Choropleth Map
 An R Shiny app for automatically mapping ITL2 data on a choropleth map.
 
+https://github.com/thomashudsonuk/itl2_choro_map/assets/5777564/eb157d07-eac6-47e0-9c69-717d16390c4f
+
+(or watch [https://youtu.be/E70PkHg3WKQ](https://youtu.be/E70PkHg3WKQ) for a (slightly) longer demo)
 ## How to use
 
 - Ensure libraries are installed (provide code to install if not already - bake into the app if possible).
