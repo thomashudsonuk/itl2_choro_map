@@ -1,0 +1,34 @@
+{
+	"id": "r-ver",
+	"version": "1.0.1",
+	"name": "R (rocker/r-ver base)",
+	"description": "A container-based development environment for the R language. Includes many commonly used R packages.",
+	"documentationURL": "https://github.com/rocker-org/devcontainer-templates/tree/main/src/r-ver",
+	"publisher": "Rocker Project",
+	"licenseURL": "https://github.com/rocker-org/devcontainer-templates/blob/main/LICENSE",
+	"options": {
+		"imageVariant": {
+			"type": "string",
+			"description": "R version:",
+			"proposals": [
+				"4",
+				"4.3",
+				"4.2"
+			],
+			"default": "4"
+		},
+		"baseVariant": {
+			"type": "string",
+			"description": "Base image. Minimal (r-ver), tidyverse installed (tidyverse), or full image (geospatial). Only r-ver supports the arm64 platform:",
+			"proposals": [
+				"r-ver",
+				"tidyverse",
+				"geospatial"
+			],
+			"default": "r-ver"
+		}
+	},
+	"platforms": [
+		"R"
+	]
+}
